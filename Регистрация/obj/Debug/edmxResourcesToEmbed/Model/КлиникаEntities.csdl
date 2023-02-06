@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="КлиникаModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Medcarti">
+    <Key>
+      <PropertyRef Name="ID_medcarti" />
+    </Key>
+    <Property Name="ID_medcarti" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ID_pacienta" Type="Int32" />
+    <Property Name="FIO_pacienta" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="FIO_sotrudnika" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Diagnoz" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Users" Relationship="Self.FK_Medcarti_Pacienti" FromRole="Medcarti" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Priem">
+    <Key>
+      <PropertyRef Name="ID_talona" />
+    </Key>
+    <Property Name="ID_talona" Type="Int32" Nullable="false" />
+    <Property Name="ID_pacienta" Type="Int32" />
+    <Property Name="FIO_pacienta" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Data_priema" Type="DateTime" Precision="3" />
+    <Property Name="FIO_sotrudnika" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ID_uslugi" Type="Int32" />
+    <NavigationProperty Name="Users" Relationship="Self.FK_Priem_Pacienti" FromRole="Priem" ToRole="Users" />
+    <NavigationProperty Name="Uslugi" Relationship="Self.FK_Priem_Uslugi" FromRole="Priem" ToRole="Uslugi" />
+  </EntityType>
+  <EntityType Name="Sotrudniki">
+    <Key>
+      <PropertyRef Name="ID_Sotrudnika" />
+    </Key>
+    <Property Name="ID_Sotrudnika" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FIO_Sotrudnika" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Telephone" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Dolzhnost_" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Oklad" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="Int32" />
+    <NavigationProperty Name="Uslugi" Relationship="Self.FK_Uslugi_Sotrudniki" FromRole="Sotrudniki" ToRole="Uslugi" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="ID_pacienta" />
+    </Key>
+    <Property Name="ID_pacienta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FIO_pacienta" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Telephone" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Data_Rozhdenia" Type="DateTime" Precision="0" />
+    <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Medcarti" Relationship="Self.FK_Medcarti_Pacienti" FromRole="Users" ToRole="Medcarti" />
+    <NavigationProperty Name="Priem" Relationship="Self.FK_Priem_Pacienti" FromRole="Users" ToRole="Priem" />
+  </EntityType>
+  <EntityType Name="Uslugi">
+    <Key>
+      <PropertyRef Name="ID_uslugi" />
+    </Key>
+    <Property Name="ID_uslugi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Naimenovanie_uslugi" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ID_sotrudnika" Type="Int32" />
+    <Property Name="FIO_sotrudnika" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Cena_priema" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Priem" Relationship="Self.FK_Priem_Uslugi" FromRole="Uslugi" ToRole="Priem" />
+    <NavigationProperty Name="Sotrudniki" Relationship="Self.FK_Uslugi_Sotrudniki" FromRole="Uslugi" ToRole="Sotrudniki" />
+  </EntityType>
+  <Association Name="FK_Medcarti_Pacienti">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Medcarti" Type="Self.Medcarti" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID_pacienta" />
+      </Principal>
+      <Dependent Role="Medcarti">
+        <PropertyRef Name="ID_pacienta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Priem_Pacienti">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="Priem" Type="Self.Priem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID_pacienta" />
+      </Principal>
+      <Dependent Role="Priem">
+        <PropertyRef Name="ID_pacienta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Priem_Uslugi">
+    <End Role="Uslugi" Type="Self.Uslugi" Multiplicity="0..1" />
+    <End Role="Priem" Type="Self.Priem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Uslugi">
+        <PropertyRef Name="ID_uslugi" />
+      </Principal>
+      <Dependent Role="Priem">
+        <PropertyRef Name="ID_uslugi" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Uslugi_Sotrudniki">
+    <End Role="Sotrudniki" Type="Self.Sotrudniki" Multiplicity="0..1" />
+    <End Role="Uslugi" Type="Self.Uslugi" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sotrudniki">
+        <PropertyRef Name="ID_Sotrudnika" />
+      </Principal>
+      <Dependent Role="Uslugi">
+        <PropertyRef Name="ID_sotrudnika" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="КлиникаEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Medcarti" EntityType="Self.Medcarti" />
+    <EntitySet Name="Priem" EntityType="Self.Priem" />
+    <EntitySet Name="Sotrudniki" EntityType="Self.Sotrudniki" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Users" EntityType="Self.Users" />
+    <EntitySet Name="Uslugi" EntityType="Self.Uslugi" />
+    <AssociationSet Name="FK_Medcarti_Pacienti" Association="Self.FK_Medcarti_Pacienti">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Medcarti" EntitySet="Medcarti" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Priem_Pacienti" Association="Self.FK_Priem_Pacienti">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Priem" EntitySet="Priem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Priem_Uslugi" Association="Self.FK_Priem_Uslugi">
+      <End Role="Uslugi" EntitySet="Uslugi" />
+      <End Role="Priem" EntitySet="Priem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Uslugi_Sotrudniki" Association="Self.FK_Uslugi_Sotrudniki">
+      <End Role="Sotrudniki" EntitySet="Sotrudniki" />
+      <End Role="Uslugi" EntitySet="Uslugi" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

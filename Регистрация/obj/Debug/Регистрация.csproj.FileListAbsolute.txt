@@ -1,0 +1,15 @@
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\bin\Debug\Регистрация.exe.config
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\bin\Debug\Регистрация.exe
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\bin\Debug\Регистрация.pdb
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\bin\Debug\EntityFramework.dll
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\bin\Debug\HashPassword.dll
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\bin\Debug\HashPassword.pdb
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\bin\Debug\EntityFramework.xml
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\bin\Debug\ru\EntityFramework.resources.dll
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\obj\Debug\Регистрация.csproj.AssemblyReference.cache
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\obj\Debug\Регистрация.csproj.CoreCompileInputs.cache
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\obj\Debug\Регистрация.csproj.CopyComplete
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\obj\Debug\Регистрация.exe
+C:\Users\Asus\source\repos\Orlova_Clinica\Регистрация\obj\Debug\Регистрация.pdb

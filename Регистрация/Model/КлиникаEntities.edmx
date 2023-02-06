@@ -1,0 +1,395 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище КлиникаModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Medcarti">
+          <Key>
+            <PropertyRef Name="ID medcarti" />
+          </Key>
+          <Property Name="ID medcarti" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID pacienta" Type="int" />
+          <Property Name="FIO pacienta" Type="varchar(max)" />
+          <Property Name="FIO sotrudnika" Type="varchar(max)" />
+          <Property Name="Diagnoz" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Priem">
+          <Key>
+            <PropertyRef Name="ID talona" />
+          </Key>
+          <Property Name="ID talona" Type="int" Nullable="false" />
+          <Property Name="ID pacienta" Type="int" />
+          <Property Name="FIO pacienta" Type="varchar(max)" />
+          <Property Name="Data priema" Type="datetime" />
+          <Property Name="FIO sotrudnika" Type="varchar(max)" />
+          <Property Name="ID uslugi" Type="int" />
+        </EntityType>
+        <EntityType Name="Sotrudniki">
+          <Key>
+            <PropertyRef Name="ID Sotrudnika" />
+          </Key>
+          <Property Name="ID Sotrudnika" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIO Sotrudnika" Type="varchar(max)" />
+          <Property Name="Telephone" Type="varchar(max)" />
+          <Property Name="Dolzhnost'" Type="varchar(max)" />
+          <Property Name="Oklad" Type="varchar(max)" />
+          <Property Name="Login" Type="varchar(max)" />
+          <Property Name="Password" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID pacienta" />
+          </Key>
+          <Property Name="ID pacienta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIO pacienta" Type="varchar(max)" />
+          <Property Name="Telephone" Type="varchar(max)" />
+          <Property Name="Gender" Type="varchar(max)" />
+          <Property Name="Data Rozhdenia" Type="date" />
+          <Property Name="Login" Type="varchar(max)" />
+          <Property Name="Password" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Uslugi">
+          <Key>
+            <PropertyRef Name="ID uslugi" />
+          </Key>
+          <Property Name="ID uslugi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naimenovanie uslugi" Type="varchar(max)" />
+          <Property Name="ID sotrudnika" Type="int" />
+          <Property Name="FIO sotrudnika" Type="varchar(max)" />
+          <Property Name="Cena priema" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK_Medcarti_Pacienti">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Medcarti" Type="Self.Medcarti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID pacienta" />
+            </Principal>
+            <Dependent Role="Medcarti">
+              <PropertyRef Name="ID pacienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Priem_Pacienti">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Priem" Type="Self.Priem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID pacienta" />
+            </Principal>
+            <Dependent Role="Priem">
+              <PropertyRef Name="ID pacienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Priem_Uslugi">
+          <End Role="Uslugi" Type="Self.Uslugi" Multiplicity="0..1" />
+          <End Role="Priem" Type="Self.Priem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uslugi">
+              <PropertyRef Name="ID uslugi" />
+            </Principal>
+            <Dependent Role="Priem">
+              <PropertyRef Name="ID uslugi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Uslugi_Sotrudniki">
+          <End Role="Sotrudniki" Type="Self.Sotrudniki" Multiplicity="0..1" />
+          <End Role="Uslugi" Type="Self.Uslugi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sotrudniki">
+              <PropertyRef Name="ID Sotrudnika" />
+            </Principal>
+            <Dependent Role="Uslugi">
+              <PropertyRef Name="ID sotrudnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище КлиникаModelContainer">
+          <EntitySet Name="Medcarti" EntityType="Self.Medcarti" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Priem" EntityType="Self.Priem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sotrudniki" EntityType="Self.Sotrudniki" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uslugi" EntityType="Self.Uslugi" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Medcarti_Pacienti" Association="Self.FK_Medcarti_Pacienti">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Medcarti" EntitySet="Medcarti" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Priem_Pacienti" Association="Self.FK_Priem_Pacienti">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Priem" EntitySet="Priem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Priem_Uslugi" Association="Self.FK_Priem_Uslugi">
+            <End Role="Uslugi" EntitySet="Uslugi" />
+            <End Role="Priem" EntitySet="Priem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Uslugi_Sotrudniki" Association="Self.FK_Uslugi_Sotrudniki">
+            <End Role="Sotrudniki" EntitySet="Sotrudniki" />
+            <End Role="Uslugi" EntitySet="Uslugi" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="КлиникаModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Medcarti">
+          <Key>
+            <PropertyRef Name="ID_medcarti" />
+          </Key>
+          <Property Name="ID_medcarti" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_pacienta" Type="Int32" />
+          <Property Name="FIO_pacienta" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FIO_sotrudnika" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Diagnoz" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Medcarti_Pacienti" FromRole="Medcarti" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Priem">
+          <Key>
+            <PropertyRef Name="ID_talona" />
+          </Key>
+          <Property Name="ID_talona" Type="Int32" Nullable="false" />
+          <Property Name="ID_pacienta" Type="Int32" />
+          <Property Name="FIO_pacienta" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Data_priema" Type="DateTime" Precision="3" />
+          <Property Name="FIO_sotrudnika" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ID_uslugi" Type="Int32" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Priem_Pacienti" FromRole="Priem" ToRole="Users" />
+          <NavigationProperty Name="Uslugi" Relationship="Self.FK_Priem_Uslugi" FromRole="Priem" ToRole="Uslugi" />
+        </EntityType>
+        <EntityType Name="Sotrudniki">
+          <Key>
+            <PropertyRef Name="ID_Sotrudnika" />
+          </Key>
+          <Property Name="ID_Sotrudnika" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO_Sotrudnika" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Telephone" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Dolzhnost_" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Oklad" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="Int32" />
+          <NavigationProperty Name="Uslugi" Relationship="Self.FK_Uslugi_Sotrudniki" FromRole="Sotrudniki" ToRole="Uslugi" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID_pacienta" />
+          </Key>
+          <Property Name="ID_pacienta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO_pacienta" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Telephone" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Data_Rozhdenia" Type="DateTime" Precision="0" />
+          <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Medcarti" Relationship="Self.FK_Medcarti_Pacienti" FromRole="Users" ToRole="Medcarti" />
+          <NavigationProperty Name="Priem" Relationship="Self.FK_Priem_Pacienti" FromRole="Users" ToRole="Priem" />
+        </EntityType>
+        <EntityType Name="Uslugi">
+          <Key>
+            <PropertyRef Name="ID_uslugi" />
+          </Key>
+          <Property Name="ID_uslugi" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naimenovanie_uslugi" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ID_sotrudnika" Type="Int32" />
+          <Property Name="FIO_sotrudnika" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Cena_priema" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Priem" Relationship="Self.FK_Priem_Uslugi" FromRole="Uslugi" ToRole="Priem" />
+          <NavigationProperty Name="Sotrudniki" Relationship="Self.FK_Uslugi_Sotrudniki" FromRole="Uslugi" ToRole="Sotrudniki" />
+        </EntityType>
+        <Association Name="FK_Medcarti_Pacienti">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Medcarti" Type="Self.Medcarti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID_pacienta" />
+            </Principal>
+            <Dependent Role="Medcarti">
+              <PropertyRef Name="ID_pacienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Priem_Pacienti">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Priem" Type="Self.Priem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID_pacienta" />
+            </Principal>
+            <Dependent Role="Priem">
+              <PropertyRef Name="ID_pacienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Priem_Uslugi">
+          <End Role="Uslugi" Type="Self.Uslugi" Multiplicity="0..1" />
+          <End Role="Priem" Type="Self.Priem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uslugi">
+              <PropertyRef Name="ID_uslugi" />
+            </Principal>
+            <Dependent Role="Priem">
+              <PropertyRef Name="ID_uslugi" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Uslugi_Sotrudniki">
+          <End Role="Sotrudniki" Type="Self.Sotrudniki" Multiplicity="0..1" />
+          <End Role="Uslugi" Type="Self.Uslugi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sotrudniki">
+              <PropertyRef Name="ID_Sotrudnika" />
+            </Principal>
+            <Dependent Role="Uslugi">
+              <PropertyRef Name="ID_sotrudnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="КлиникаEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Medcarti" EntityType="Self.Medcarti" />
+          <EntitySet Name="Priem" EntityType="Self.Priem" />
+          <EntitySet Name="Sotrudniki" EntityType="Self.Sotrudniki" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="Uslugi" EntityType="Self.Uslugi" />
+          <AssociationSet Name="FK_Medcarti_Pacienti" Association="Self.FK_Medcarti_Pacienti">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Medcarti" EntitySet="Medcarti" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Priem_Pacienti" Association="Self.FK_Priem_Pacienti">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Priem" EntitySet="Priem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Priem_Uslugi" Association="Self.FK_Priem_Uslugi">
+            <End Role="Uslugi" EntitySet="Uslugi" />
+            <End Role="Priem" EntitySet="Priem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Uslugi_Sotrudniki" Association="Self.FK_Uslugi_Sotrudniki">
+            <End Role="Sotrudniki" EntitySet="Sotrudniki" />
+            <End Role="Uslugi" EntitySet="Uslugi" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище КлиникаModelContainer" CdmEntityContainer="КлиникаEntities1">
+          <EntitySetMapping Name="Medcarti">
+            <EntityTypeMapping TypeName="КлиникаModel.Medcarti">
+              <MappingFragment StoreEntitySet="Medcarti">
+                <ScalarProperty Name="ID_medcarti" ColumnName="ID medcarti" />
+                <ScalarProperty Name="ID_pacienta" ColumnName="ID pacienta" />
+                <ScalarProperty Name="FIO_pacienta" ColumnName="FIO pacienta" />
+                <ScalarProperty Name="FIO_sotrudnika" ColumnName="FIO sotrudnika" />
+                <ScalarProperty Name="Diagnoz" ColumnName="Diagnoz" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Priem">
+            <EntityTypeMapping TypeName="КлиникаModel.Priem">
+              <MappingFragment StoreEntitySet="Priem">
+                <ScalarProperty Name="ID_talona" ColumnName="ID talona" />
+                <ScalarProperty Name="ID_pacienta" ColumnName="ID pacienta" />
+                <ScalarProperty Name="FIO_pacienta" ColumnName="FIO pacienta" />
+                <ScalarProperty Name="Data_priema" ColumnName="Data priema" />
+                <ScalarProperty Name="FIO_sotrudnika" ColumnName="FIO sotrudnika" />
+                <ScalarProperty Name="ID_uslugi" ColumnName="ID uslugi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sotrudniki">
+            <EntityTypeMapping TypeName="КлиникаModel.Sotrudniki">
+              <MappingFragment StoreEntitySet="Sotrudniki">
+                <ScalarProperty Name="ID_Sotrudnika" ColumnName="ID Sotrudnika" />
+                <ScalarProperty Name="FIO_Sotrudnika" ColumnName="FIO Sotrudnika" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Dolzhnost_" ColumnName="Dolzhnost'" />
+                <ScalarProperty Name="Oklad" ColumnName="Oklad" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="КлиникаModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="КлиникаModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID_pacienta" ColumnName="ID pacienta" />
+                <ScalarProperty Name="FIO_pacienta" ColumnName="FIO pacienta" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Data_Rozhdenia" ColumnName="Data Rozhdenia" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uslugi">
+            <EntityTypeMapping TypeName="КлиникаModel.Uslugi">
+              <MappingFragment StoreEntitySet="Uslugi">
+                <ScalarProperty Name="ID_uslugi" ColumnName="ID uslugi" />
+                <ScalarProperty Name="Naimenovanie_uslugi" ColumnName="Naimenovanie uslugi" />
+                <ScalarProperty Name="ID_sotrudnika" ColumnName="ID sotrudnika" />
+                <ScalarProperty Name="FIO_sotrudnika" ColumnName="FIO sotrudnika" />
+                <ScalarProperty Name="Cena_priema" ColumnName="Cena priema" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
